@@ -1,19 +1,18 @@
-const int trigPin=2;
-const int echoPin= 3;
+const int trigPin=5;
+const int echoPin=4;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 }
 
 void loop() {
   delay(100);
-  long raz = Raz();
-  Serial.println(raz);
+  Raz();
 }
 
-long Raz(){
+void Raz(){
   long duration, distance;
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -23,12 +22,12 @@ long Raz(){
   duration = pulseIn(echoPin, HIGH);
   distance = (duration/2) / 29.1;
   if (distance >= 200 || distance <= 0){
-    return -1;
-    //Serial.println("Out of range");
+    Serial.println("Out of range");
+
   }
   else {
-    return distance;
-    //Serial.print(distance);
-    //Serial.println(" cm");
+    Serial.print(distance);
+    Serial.println(" cm");
+
   }
 }
