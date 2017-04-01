@@ -9,9 +9,9 @@ int status = WL_IDLE_STATUS;
 
 char server[] = "ip address";
 
-WifiClient client;
+WiFiClient client;
 
-void setup {
+void setup() {
   Serial.begin(9600);
   while(!Serial)
     ;
@@ -28,7 +28,7 @@ void setup {
   printWiFiStatus();
 }
 
-void loop {
+void loop() {
   delay(5000);
 
   Serial.println("\nStarting connection to server...");
@@ -46,7 +46,7 @@ void loop {
     char c = client.read();
     Serial.write(c);
   }
-  client.close();
+  client.stop();
 }
 
 void printWiFiStatus() {
