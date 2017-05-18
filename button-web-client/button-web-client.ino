@@ -4,37 +4,38 @@
 const int btnPin = 0;
 int btnState = 0;
 
-char ssid[] = "ssid";
-char pass[] = "password";
+char ssid[] = "harms";
+char pass[] = "isaocovekdaniil";
 int keyIndex = 0;
 
 int status = WL_IDLE_STATUS;
 
-char server[] = "ip address";
+char server[] = "192.168.0.10";
 
 WiFiClient client;
 
 void setup() {
   Serial.begin(9600);
-  while(!Serial)
-    ;
-  while (status != WL_CONNECTED) {
-    Serial.print("Attempting to connect to SSID: ");
-    Serial.println(ssid);
-
-    status = WiFi.begin(ssid, pass);
-
-
-    delay(10000);
-  }
-  Serial.println("Connected to wifi");
-  printWiFiStatus();
   pinMode(btnPin, INPUT);
 }
 
 void loop() {
   delay(100);
 
+  if (status != WL_CONNECTED) {
+    while (status != WL_CONNECTED) {
+      Serial.print("Attempting to connect to SSID: ");
+      Serial.println(ssid);
+  
+      status = WiFi.begin(ssid, pass);
+  
+  
+      delay(10000);
+    }
+    Serial.println("Connected to wifi");
+    printWiFiStatus();
+  }
+  
   int newBtnState = digitalRead(btnPin);
   if (newBtnState == btnState)
     return;
@@ -47,7 +48,7 @@ void loop() {
 
 
 
-    client.println("GET /api/new-data?button=" + btnState + " HTTP/1.1");
+    client.println(String("GET /api/new-data?button=") + btnState + " HTTP/1.1");
     client.println(String("Host: ") + server);
     client.println("Connection: close");
     client.println();

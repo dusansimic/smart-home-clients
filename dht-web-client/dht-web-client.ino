@@ -1,17 +1,19 @@
 #include <SPI.h>
 #include <WiFi101.h>
-#include <dht11.h>
+#include <DHT.h>
 
-dht11 DHT11;
 const int dhtPin = 0;
+#define DHTTYPE DHT11
 
-char ssid[] = "ssid";
-char pass[] = "password";
+DHT dht(dhtPin, DHTTYPE);
+
+char ssid[] = "harms";
+char pass[] = "isaocovekdaniil";
 int keyIndex = 0;
 
 int status = WL_IDLE_STATUS;
 
-char server[] = "ip";
+char server[] = "192.168.0.10";
 
 WiFiClient client;
 
@@ -42,27 +44,9 @@ void loop() {
   Serial.println("\nStarting connection to server...");
 
   if (client.connect(server, 3000)) {
-    int chk = DHT11.read(dhtPin);
 
-    Serial.print("Read sensor: ");
-    switch (chk)
-    {
-      case DHTLIB_OK:
-      Serial.println("OK");
-      break;
-      case DHTLIB_ERROR_CHECKSUM:
-      Serial.println("Checksum error");
-      break;
-      case DHTLIB_ERROR_TIMEOUT:
-      Serial.println("Time out error");
-      break;
-      default:
-      Serial.println("Unknown error");
-      break;
-    }
-
-    float temperature = (float) DHT11.temperature;
-    float humidity = (float) DHT11.humidity;
+    float temperature = (float) dht.readTemperature();
+    float humidity = (float) dht.readTemperature();
     Serial.println("connected to server");
     // Make a HTTP request:
     client.println(String("GET /api/new-data?temperature=") + temperature + "&humidity=" + humidity + " HTTP/1.1");

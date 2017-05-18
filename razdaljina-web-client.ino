@@ -2,7 +2,7 @@ const int trigPin = 1;
 const int echoPin= 0;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 }
@@ -12,7 +12,7 @@ void loop() {
   Raz();
 }
 
-long Raz(){
+void Raz(){
   long duration, distance;
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
